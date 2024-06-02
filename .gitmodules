@@ -1,0 +1,3 @@
+[submodule "polyfem-data"]
+	path = polyfem-data
+	url = https://github.com/polyfem/polyfem-data

@@ -1,0 +1,97 @@
+{
+    "geometry": [{
+        "mesh": "polyfem-data/contact/meshes/3D/simple/sphere/sphere1K.msh",
+        "transformation": {
+            "translation": [0, 0.6, 0]
+        },
+        "volume_selection": 1
+    }, {
+        "mesh": "polyfem-data/contact/meshes/3D/simple/cube-denser.msh",
+        "transformation": {
+            "translation": [0, 2.3, 0],
+            "scale": 1
+        },
+        "volume_selection": 2
+    },
+    {
+        "mesh": "polyfem-data/contact/meshes/3D/obstacles/plane.obj",
+        "transformation": {
+            "translation": [0, 0, 0]
+        },
+        "volume_selection": 3,
+        "is_obstacle":true
+    }],
+    "contact": {
+        "dhat": 1e-3
+    },
+    "time": {
+        "tend": 1.0,
+        "dt":0.02,
+        "t0":0,
+        "time_steps": 50
+    },
+    "boundary_conditions": {
+        "rhs": [0, 9.81, 0],
+        "dirichlet_boundary": [{
+            "id": 2,
+            "value": [
+                "0",
+                "-t", 
+                "0"
+            ],
+            "dimension": [true, false, true]
+        }]
+    },
+    "materials": [{
+        "id": 1,
+        "E": 5e4,
+        "nu": 0.2,
+        "rho": 5000,
+        "type": "NeoHookean"
+    },{
+        "id": 2,
+        "E": 1e13,
+        "nu": 0.0,
+        "rho": 10000,
+        "type": "NeoHookean"
+    }],
+    "contact": {
+        "enabled": true,
+        "dhat": 0.001
+    },
+    "solver": {
+        "linear": {
+            "solver": "Eigen::CholmodSupernodalLLT"
+        },
+        "nonlinear": {
+            "iterations_per_strategy": 1,
+            "line_search": {
+                "method": "backtracking"
+            },
+            "solver": "Newton",
+            "x_delta": 1e-12,
+            "grad_norm": 1e-5
+        },
+        "advanced": {
+            "lump_mass_matrix": true
+        }
+    },
+    "output": {
+        "json": "sim.json",
+        "paraview": {
+            "file_name": "sim.pvd",
+            "options": {
+                "material": true,
+                "body_ids": true,
+                "tensor_values": false,
+                "discretization_order": false,
+                "nodes": false
+            },
+            "vismesh_rel_area": 10000000
+        },
+        "advanced": {
+            "save_solve_sequence_debug": false,
+            "save_time_sequence": true
+        }
+    }
+}

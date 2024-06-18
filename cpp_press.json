@@ -7,7 +7,7 @@
         },
         "volume_selection": 1
     }, {
-        "mesh": "polyfem-data/contact/meshes/3D/simple/cube-denser.msh",
+        "mesh": "polyfem-data/contact/meshes/3D/simple/cube.msh",
         "transformation": {
             "translation": [0, 2.3, 0],
             "scale": 1
@@ -30,15 +30,28 @@
         "time_steps": 50
     },
     "boundary_conditions": {
-        "rhs": [0, 9.81, 0],
-        "dirichlet_boundary": [{
-            "id": 2,
-            "value": [
-                "0",
-                "-t", 
-                "0"
-            ]
-        }]
+        "rhs": [0, 9.81, 0]
+    },
+    "solver": {
+        "linear": {
+            "solver": "Eigen::CholmodSupernodalLLT"
+        },
+        "nonlinear": {
+            "line_search": {
+                "method": "Armijo"
+            },
+            "solver": "Newton",
+            "x_delta": 1e-12,
+            "grad_norm": 1
+        },
+        "contact":{
+          "CCD":{
+            "tolerance": 1
+          }
+        },
+        "advanced": {
+            "lump_mass_matrix": true
+        }
     },
     "materials": [{
         "id": 1,
@@ -52,5 +65,10 @@
         "nu": 0.4,
         "rho": 10000,
         "type": "NeoHookean"
-    }]
+    }],
+  "output":{
+    "log":{
+      "level":2
+    }
+  }
 }

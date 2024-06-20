@@ -1,14 +1,16 @@
 {
     "geometry": [{
-        "mesh": "polyfem-data/contact/meshes/3D/simple/sphere/sphere1K.msh",
+        "mesh": "./simpler.msh",
         "transformation": {
-            "translation": [0, 0.6, 0]
+            "translation": [0, 0.6, 0],
+            "scale": 0.5
         },
         "volume_selection": 1
     }, {
-        "mesh": "polyfem-data/contact/meshes/3D/simple/cube.msh",
+        "mesh": "press2.msh",
         "transformation": {
-            "translation": [0, 2.3, 0],
+            "translation": [0, 5.3, 0],
+            "rotation": [90,0,0],
             "scale": 1
         },
         "volume_selection": 2
@@ -19,6 +21,16 @@
             "translation": [0, 0, 0]
         },
         "volume_selection": 3,
+        "is_obstacle":true
+    },
+      {
+        "mesh": "press1.stl",
+        "transformation": {
+            "translation": [0, 5, 0],
+            "rotation": [90,0,0],
+            "scale": 1.01
+        },
+        "volume_selection": 4,
         "is_obstacle":true
     }],
     "contact": {
@@ -31,20 +43,11 @@
         "time_steps": 50
     },
     "boundary_conditions": {
-        "rhs": [0, 9.81, 0],
-        "dirichlet_boundary": [{
-            "id": 2,
-            "value": [
-                "0",
-                "-t", 
-                "0"
-            ],
-            "dimension": [true, false, true]
-        }]
+        "rhs": [0, 9.81, 0]
     },
     "materials": [{
         "id": 1,
-        "E": 5e4,
+        "E": 5e6,
         "nu": 0.2,
         "rho": 5000,
         "type": "NeoHookean"

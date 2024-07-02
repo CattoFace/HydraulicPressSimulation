@@ -13,6 +13,7 @@
             "rotation": [90,0,0],
             "scale": 1
         },
+        "surface_selection": 1,
         "volume_selection": 2
     },
     {
@@ -43,7 +44,15 @@
         "time_steps": 50
     },
     "boundary_conditions": {
-        "rhs": [0, 9.81, 0]
+        "rhs": [0, 9.81, 0],
+        "neumann_boundary": [{
+                "id": 1,
+                "value": [
+                    0,
+                    -1e1,
+                    0
+                ]
+            }]
     },
     "materials": [{
         "id": 1,
@@ -55,7 +64,7 @@
         "id": 2,
         "E": 1e13,
         "nu": 0.0,
-        "rho": 10000,
+        "rho": 0,
         "type": "NeoHookean"
     }],
     "contact": {
@@ -88,11 +97,12 @@
         "paraview": {
             "file_name": "sim.pvd",
             "options": {
-                "material": true,
-                "body_ids": true,
+                "material": false,
+                "body_ids": false,
                 "tensor_values": false,
                 "discretization_order": false,
-                "nodes": false
+                "nodes": false,
+                "high_order_mesh":true
             },
             "vismesh_rel_area": 10000000
         },

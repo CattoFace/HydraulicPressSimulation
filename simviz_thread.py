@@ -21,9 +21,9 @@ class Sim:
         self.solver.set_settings(json.dumps(self.config))
         self.solver.load_mesh_from_settings()
         self.cumulative_action = np.zeros(3)
-        self.dt = self.config["time"]['dt']
-        self.t0 = self.config["time"]["t0"]
-        self.solver.init_timestepping(self.t0, self.dt)
+        dt = self.config["time"]['dt']
+        t0 = self.config["time"]["t0"]
+        self.solver.init_timestepping(t0, dt)
         self.plotter = pvqt.BackgroundPlotter()
         self.frame_time = 1/24
         self.plotter.camera_position = np.array([(0.0, 3.3543430868776536, 30.23866060008553),
@@ -33,24 +33,21 @@ class Sim:
                                        , (1,10000), 1, "Press Force")
         self.sim_thread = threading.Thread(target=self.run_simulation, daemon=True)
         self.sim_thread.start()
-        self.lock = threading.Lock()
     
     def __del__(self):
         os.remove("step_0.vtu")
         os.remove("step_0.vtm")
 
-    def update_density(self, new_density):
-        self.solver.update_neumann_boundary(1,[0,-new_density,0])
-            
     def run_simulation(self):
         while True:
             t = time.time()
-            self.solver.step_in_time(0, max(self.dt,self.frame_time), 0)
+            adj_dt = max(self.dt, self.frame_time)
+            self.solver.step_in_time(0, adj_dt, 0)
             self.dt = time.time()-t
             mesh: pv.UnstructuredGrid  = pv.read("step_0.vtu")
             self.plotter.add_mesh(mesh.warp_by_vector(), name="mesh")
-            self.step_count += 1
-            self.t0 += self.dt
+            if self.frame_time>self.dt:
+                time.sleep(self.frame_time-self.dt)
         
 if __name__ == "__main__":
     s = Sim()

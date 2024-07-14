@@ -6,13 +6,14 @@ import numpy as np
 import os
 import threading
 import time
+import sys
 
 # FIXME better solution
 os.environ["QT_QPA_PLATFORM"]="xcb"
 
 class Sim:
-    def __init__(self) -> None:
-        self.asset_file = 'python_press.json'
+    def __init__(self,object_json) -> None:
+        self.asset_file = object_json
         with open(self.asset_file,'r') as f:
             self.config = json.load(f)
         self.step_count = 1
@@ -36,8 +37,9 @@ class Sim:
         self.sim_thread.start()
     
     def __del__(self):
-        os.remove("step_0.vtu")
-        os.remove("step_0.vtm")
+        pass
+        # os.remove("step_0.vtu")
+        # os.remove("step_0.vtm")
 
     def run_simulation(self):
         while True:
@@ -54,5 +56,7 @@ class Sim:
                 time.sleep(self.frame_time-self.dt)
         
 if __name__ == "__main__":
-    s = Sim()
+    if len(sys.argv)<2:
+        print("Missing input, must receive object json file")
+    s = Sim(sys.argv[1])
     input()

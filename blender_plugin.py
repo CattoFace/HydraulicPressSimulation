@@ -2,8 +2,8 @@ import bpy
 import json
 from pathlib import Path
 import os
+import subprocess 
 
-# ./FloatTetwild_bin -i to_press.stl -o to_press.msh --max-threads 12 --coarsen -l 1 --use-floodfill --stop-energy 100
 polyfem_json = json.loads("""{
     "geometry": [{
         "mesh": "./to_press.msh",
@@ -164,6 +164,7 @@ class ExportPolyFEM(Operator, ExportHelper):
     def execute(self, context):
         print("exporting PolyFEM...")
         bpy.ops.export_mesh.stl(filepath=os.path.join(Path(self.filepath).parent,"to_press.stl"))
+        subprocess.run(["/home/lab/Nextcloud/Documents/Uni/CS/GraphicsProject/PhysicalSimulationProject/FloatTetwild_bin", "-i", "to_press.stl", "-o", "to_press.msh" ,"--max-threads", "12", "--coarsen", "-l", "1" ,"--use-floodfill", "--stop-energy", "100"])
         polyfem_json["materials"][0]["E"]=self.E_param
         polyfem_json["materials"][0]["nu"]=self.nu_param
         polyfem_json["materials"][0]["rho"]=self.rho_param

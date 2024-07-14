@@ -1,3 +1,9 @@
+bl_info = {
+    "name": "Export PolyFEM",
+    "blender": (4, 1, 0),
+    "category": "Export",
+}
+
 import bpy
 import json
 from pathlib import Path

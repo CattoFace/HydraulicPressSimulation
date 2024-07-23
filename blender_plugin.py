@@ -14,36 +14,36 @@ polyfem_json = json.loads("""{
     "geometry": [{
         "mesh": "./to_press.msh",
         "transformation": {
-            "translation": [0, 0.6, 0],
-            "scale": 0.5
+            "translation": [0, 1.1, 0],
+            "rotation": [90,0,0],
+            "scale": 1
         },
         "volume_selection": 1
     }, {
         "mesh": "press2.msh",
         "transformation": {
-            "translation": [0, 5.3, 0],
+            "translation": [0, 5, 0],
             "rotation": [90,0,0],
-            "scale": 1
+            "scale": [1,1,1]
         },
         "surface_selection": 1,
         "volume_selection": 2
     },
     {
+        "mesh": "press1.stl",
+        "transformation": {
+            "translation": [0, 5, 0],
+            "rotation": [90,0,0],
+            "scale": [1.01,1.01,1.01]
+        },
+        "volume_selection": 4,
+        "is_obstacle":true
+    },{
         "mesh": "polyfem-data/contact/meshes/3D/obstacles/plane.obj",
         "transformation": {
             "translation": [0, 0, 0]
         },
         "volume_selection": 3,
-        "is_obstacle":true
-    },
-      {
-        "mesh": "press1.stl",
-        "transformation": {
-            "translation": [0, 5, 0],
-            "rotation": [90,0,0],
-            "scale": 1.01
-        },
-        "volume_selection": 4,
         "is_obstacle":true
     }],
     "contact": {
@@ -168,12 +168,26 @@ class ExportPolyFEM(Operator, ExportHelper):
     )
 
     def execute(self, context):
-        print("exporting PolyFEM...")
+        print("exporting to PolyFEM...")
+        max_x=max_y=max_z=0
+        for obj in bpy.data.objects:
+            dim = obj.dimensions
+            max_x = max(max_x,dim[0])
+            max_y = max(max_y,dim[1])
+            max_z = max(max_z,dim[2])
+        print("Bounding Box: ",max_x,max_y,max_z)
         bpy.ops.export_mesh.stl(filepath=os.path.join(Path(self.filepath).parent,"to_press.stl"))
         subprocess.run(["/home/lab/Nextcloud/Documents/Uni/CS/GraphicsProject/PhysicalSimulationProject/FloatTetwild_bin", "-i", "to_press.stl", "-o", "to_press.msh" ,"--max-threads", "12", "--coarsen", "-l", "1" ,"--use-floodfill", "--stop-energy", "100"])
         polyfem_json["materials"][0]["E"]=self.E_param
         polyfem_json["materials"][0]["nu"]=self.nu_param
         polyfem_json["materials"][0]["rho"]=self.rho_param
+        polyfem_json["geometry"][0]["transformation"]["translation"]=[0,max_z/2+0.1,0]
+        polyfem_json["geometry"][1]["transformation"]["translation"]=[0,max_z*2+1,0]
+        polyfem_json["geometry"][2]["transformation"]["translation"]=[0,max_z*1.5+1,0]
+        polyfem_json["geometry"][1]["transformation"]["scale"]=[max_x*0.6,max_y*0.6,max_z*0.3]
+        polyfem_json["geometry"][2]["transformation"]["scale"]=[max_x*0.6+0.01,max_y*0.6+0.01, 1.01]
+        polyfem_json["geometry"][3]["transformation"]["scale"]=[max_x/10+0.5,1,max_y/10+0.5]
+        
         with open(self.filepath, 'w', encoding='utf-8') as f:
             json.dump(polyfem_json, f, indent=2)
         return {'FINISHED'}
@@ -181,7 +195,7 @@ class ExportPolyFEM(Operator, ExportHelper):
 
 # Only needed if you want to add into a dynamic menu
 def menu_func_export(self, context):
-    self.layout.operator(ExportPolyFEM.bl_idname, text="PolyFEM Export Operator")
+    self.layout.operator(ExportPolyFEM.bl_idname, text="Export to PolyFEM")
 
 
 # Register and add to the "file selector" menu (required to use F3 search "Text Export Operator" for quick access).

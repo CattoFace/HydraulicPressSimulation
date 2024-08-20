@@ -20,7 +20,7 @@ polyfem_json = json.loads("""{
         },
         "volume_selection": 1
     }, {
-        "mesh": "press2.msh",
+        "mesh": "mesh/press2.msh",
         "transformation": {
             "translation": [0, 5, 0],
             "rotation": [90,0,0],
@@ -30,7 +30,7 @@ polyfem_json = json.loads("""{
         "volume_selection": 2
     },
     {
-        "mesh": "press1.stl",
+        "mesh": "mesh/press1.stl",
         "transformation": {
             "translation": [0, 5, 0],
             "rotation": [90,0,0],
@@ -39,7 +39,7 @@ polyfem_json = json.loads("""{
         "volume_selection": 4,
         "is_obstacle":true
     },{
-        "mesh": "polyfem-data/contact/meshes/3D/obstacles/plane.obj",
+        "mesh": "mesh/plane.obj",
         "transformation": {
             "translation": [0, 0, 0]
         },
@@ -177,7 +177,7 @@ class ExportPolyFEM(Operator, ExportHelper):
             max_z = max(max_z,dim[2])
         print("Bounding Box: ",max_x,max_y,max_z)
         bpy.ops.wm.stl_export(filepath=os.path.join(Path(self.filepath).parent,"to_press.stl"))
-        subprocess.run(["/home/lab/Nextcloud/Documents/Uni/CS/GraphicsProject/PhysicalSimulationProject/FloatTetwild_bin", "-i", "to_press.stl", "-o", "to_press.msh" ,"--max-threads", "12", "--coarsen", "-l", "1" ,"--use-floodfill", "--stop-energy", "100"])
+        subprocess.run(["FloatTetwild_bin", "-i", "to_press.stl", "-o", "to_press.msh" ,"--max-threads", "12", "--coarsen", "-l", "1" ,"--use-floodfill", "--stop-energy", "100"])
         polyfem_json["materials"][0]["E"]=self.E_param
         polyfem_json["materials"][0]["nu"]=self.nu_param
         polyfem_json["materials"][0]["rho"]=self.rho_param

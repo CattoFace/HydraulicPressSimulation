@@ -32,7 +32,7 @@ class Sim:
         self.mesh = pv.read("step_0.vtu")
         self.plotter.add_mesh(self.mesh.warp_by_vector(inplace=True))
         self.plotter.add_slider_widget(lambda force: self.solver.update_neumann_boundary(1,[0,-force,0])
-                                       , (1,10000), 1, "Press Force")
+                                       , (1,max_force), 1, "Press Force")
         self.sim_thread = threading.Thread(target=self.run_simulation, daemon=True)
         self.sim_thread.start()
     
@@ -57,6 +57,10 @@ class Sim:
         
 if __name__ == "__main__":
     if len(sys.argv)<2:
-        print("Missing input, must receive object json file")
+        print("format: simulation.py <configuration> <max_force_override(optional, default=10000)>")
+    if len(sys.argv)<3:
+        max_force = 10000
+    else:
+        max_force = int(sys.argv[2])
     s = Sim(sys.argv[1])
     input()

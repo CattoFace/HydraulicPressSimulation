@@ -5,19 +5,7 @@
       "transformation": {
         "translation": [
           0,
-          0.6,
-          0
-        ],
-        "scale": 0.5
-      },
-      "volume_selection": 1
-    },
-    {
-      "mesh": "press2.msh",
-      "transformation": {
-        "translation": [
-          0,
-          5.3,
+          1.6960443019866944,
           0
         ],
         "rotation": [
@@ -27,27 +15,14 @@
         ],
         "scale": 1
       },
-      "surface_selection": 1,
-      "volume_selection": 2
+      "volume_selection": 1
     },
     {
-      "mesh": "polyfem-data/contact/meshes/3D/obstacles/plane.obj",
+      "mesh": "mesh/press2.msh",
       "transformation": {
         "translation": [
           0,
-          0,
-          0
-        ]
-      },
-      "volume_selection": 3,
-      "is_obstacle": true
-    },
-    {
-      "mesh": "press1.stl",
-      "transformation": {
-        "translation": [
-          0,
-          5,
+          7.384177207946777,
           0
         ],
         "rotation": [
@@ -55,9 +30,52 @@
           0,
           0
         ],
-        "scale": 1.01
+        "scale": [
+          1.2064966678619384,
+          7.241663360595703,
+          0.9576265811920166
+        ]
+      },
+      "surface_selection": 1,
+      "volume_selection": 2
+    },
+    {
+      "mesh": "mesh/press1.stl",
+      "transformation": {
+        "translation": [
+          0,
+          5.788132905960083,
+          0
+        ],
+        "rotation": [
+          90,
+          0,
+          0
+        ],
+        "scale": [
+          1.2164966678619384,
+          7.251663360595702,
+          1.01
+        ]
       },
       "volume_selection": 4,
+      "is_obstacle": true
+    },
+    {
+      "mesh": "mesh/plane.obj",
+      "transformation": {
+        "translation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.7010827779769897,
+          1,
+          1.706943893432617
+        ]
+      },
+      "volume_selection": 3,
       "is_obstacle": true
     }
   ],

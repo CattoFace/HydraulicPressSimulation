@@ -63,4 +63,4 @@ Then, to allow any size of mesh, I made the size of everything else in the simul
 
 # Final Output
 After all of these steps, this is what the simulation looks like running:
-![final](media/final.webm)
+https://github.com/CattoFace/HydraulicPressSimulation/blob/main/media/final.webm

@@ -2,6 +2,7 @@
 This repository contains my semestral project in Computer Graphics about simulating non-rigid bodies inside a hydraulic press.
 The project uses Blender and a custom blender add-on to generate the simulation, it uses PolyFEM to run the simulation, and it visualizes every step of it using PyVista.
 
+![demo](media/demo.gif)
 
 ## Prerequisites
 ### Required:

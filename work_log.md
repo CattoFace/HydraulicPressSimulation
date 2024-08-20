@@ -62,5 +62,5 @@ To make it easier to create the configuration for a hydraulic press simulation, 
 Then, to allow any size of mesh, I made the size of everything else in the simulation configuration match the bounding box of the mesh, which prevents simulation crashes due to intersections and enforces that the press always covers the pressed mesh.
 
 # Final Output
-After all of these steps, this is what the simulation looks like running:
-[final demo](https://github.com/user-attachments/assets/99ddcd5b-8585-452f-8682-058555cabb40)
+After all of these steps, this is what the simulation looks like running([webm](https://github.com/user-attachments/assets/99ddcd5b-8585-452f-8682-058555cabb40)):
+![demo](media/demo.gif)

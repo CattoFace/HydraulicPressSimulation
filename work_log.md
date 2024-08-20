@@ -20,6 +20,7 @@ PyPI and conda both had various installation problems and Jupyter only outputted
 ## Adjusting the simulation approach
 First an animation based version was created, meaning the top plate is scripted to move down at a specific rate.
 ![animation_based](media/anim.gif)
+
 This version has 2 main issues:
 - The simulation is very slow, 6-7 minutes for a 50 step simulation(0.02s steps)
 - The only control we have is the rate of approach, the plate always behaves as an "immovable objects" and the mesh *must* conform to the it.

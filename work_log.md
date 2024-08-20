@@ -55,6 +55,7 @@ The program tries to run at 24 TPS.
 
 ## Configuration generation
 To make it easier to create the configuration for a hydraulic press simulation, I wrote a Blender add-on the exports any mesh into an optimized tet mesh and generates a matching simulation configuration for it.
+
 ![export1](media/export1.webp)
 ![export2](media/export2.webp)
 
